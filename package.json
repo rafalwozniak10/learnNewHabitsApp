@@ -1,0 +1,23 @@
+{
+  "name": "fastify-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json -w",
+    "start": "tsc -w & nodemon dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.15.0",
+    "fastify": "^4.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.5",
+    "prisma": "^4.15.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
