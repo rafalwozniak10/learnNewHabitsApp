@@ -5,29 +5,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_1 = __importDefault(require("fastify"));
 const client_1 = require("@prisma/client");
-//import userRoutes from "src/user";
 const server = (0, fastify_1.default)();
 const prisma = new client_1.PrismaClient();
 server.get("/", async function () {
     return { status: "OK" };
 });
-server.post("/login", async (request, reply) => {
-    const { name, password, tasks } = request.query;
-    const taskData = tasks
-        ? tasks.map((task) => {
-            return { Task: task.task, IsDone: task.IsDone || undefined };
-        })
-        : [];
-    const result = await prisma.user.create({
+server.post("/task", async (request, reply) => {
+    const { taskToDo, isDone, daysInRow } = request.body;
+    const task = await prisma.task.create({
         data: {
-            name,
-            password,
+            taskToDo,
+            isDone,
+            daysInRow,
         },
     });
-    return result;
+    reply.send(task);
 });
-server.post;
-//server.register(userRoutes, { prefix: "api/users" });
+server.put("/task", async (request, reply) => {
+    const { taskToDo, isDone, daysInRow } = request.params;
+    const task = await prisma.task.update({
+        data: {
+            taskToDo,
+            isDone,
+            daysInRow,
+        },
+    });
+    reply.send(task);
+});
+server.delete("/task", async (request, reply) => {
+    const { taskToDo, isDone, daysInRow } = request.params;
+    const task = await prisma.task.delete({
+        data: {
+            taskToDo,
+            isDone,
+            daysInRow,
+        },
+    });
+    reply.send(task);
+});
 server.listen({ port: 3000 }, function (err, address) {
     if (err) {
         server.log.error(err);
