@@ -17,13 +17,21 @@ datasource db {
 //   task     Task[]
 // }
 
-model Task {
+model taskList {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  task      String
-  isDone    Boolean
-  daysInRow Int
+  task      Task[]
+}
+
+model Task {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  task       String
+  isDone     Boolean
   // user      User     @relation(fields: [userId], references: [id])
   // userId    Int
+  taskList   taskList @relation(fields: [taskListId], references: [id])
+  taskListId Int
 }
