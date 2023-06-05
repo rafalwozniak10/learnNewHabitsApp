@@ -10,12 +10,12 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  password String
-  task     Task[]
-}
+// model User {
+//   id       Int    @id @default(autoincrement())
+//   name     String
+//   password String
+//   task     Task[]
+// }
 
 model Task {
   id        Int      @id @default(autoincrement())
@@ -24,6 +24,6 @@ model Task {
   task      String
   isDone    Boolean
   daysInRow Int
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
+  // user      User     @relation(fields: [userId], references: [id])
+  // userId    Int
 }
