@@ -17,10 +17,11 @@ datasource db {
 //   task     Task[]
 // }
 
-model taskList {
+model TaskList {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  name      String   @default("www")
   task      Task[]
 }
 
@@ -28,10 +29,11 @@ model Task {
   id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  task       String
+  //task       String
   isDone     Boolean
+  date       DateTime
   // user      User     @relation(fields: [userId], references: [id])
   // userId    Int
-  taskList   taskList @relation(fields: [taskListId], references: [id])
+  list       TaskList @relation(fields: [taskListId], references: [id])
   taskListId Int
 }
