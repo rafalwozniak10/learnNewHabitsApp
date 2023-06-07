@@ -5,13 +5,15 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json -w",
-    "start": "tsc -w & nodemon dist/index.js"
+    "start": "start tsc&& nodemon dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/cors": "^8.3.0",
     "@prisma/client": "^4.15.0",
+    "cors": "^2.8.5",
     "fastify": "^4.17.0"
   },
   "devDependencies": {

@@ -1,11 +1,20 @@
 import Fastify from "fastify";
+import cors from "@fastify/cors";
 import { PrismaClient, TaskList } from "@prisma/client";
 import { userType, taskType, IHeaders, taskListType } from "type";
 const server = Fastify();
 const prisma = new PrismaClient();
-server.get("/", async function () {
-  return { status: "OK" };
+
+server.register(cors, {
+  origin: ["*"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
 });
+
+console.log("wefwef");
+console.log("wefwef");
+console.log("wefwef");
+console.log("wefwef");
 
 server.get<{ Body: taskListType }>("/tasklist", async (request, reply) => {
   const taskLists = await prisma.taskList.findMany({
@@ -14,6 +23,12 @@ server.get<{ Body: taskListType }>("/tasklist", async (request, reply) => {
     },
   });
   reply.send(taskLists);
+  reply.header("Access-Control-Allow-Origin", true);
+  reply.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  reply.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
 });
 
 server.get<{ Params: { startDate: Date } }>(
@@ -117,7 +132,7 @@ server.delete<{ Params: { id: number } }>(
 //   reply.send(user);
 // });
 
-server.listen({ port: 3000 }, function (err, address) {
+server.listen({ port: 5000 }, function (err, address) {
   if (err) {
     server.log.error(err);
     process.exit(1);
