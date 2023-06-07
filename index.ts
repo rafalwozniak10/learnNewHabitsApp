@@ -11,11 +11,6 @@ server.register(cors, {
   allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
 });
 
-console.log("wefwef");
-console.log("wefwef");
-console.log("wefwef");
-console.log("wefwef");
-
 server.get<{ Body: taskListType }>("/tasklist", async (request, reply) => {
   const taskLists = await prisma.taskList.findMany({
     include: {
