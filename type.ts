@@ -4,9 +4,17 @@ export interface userType {
 }
 
 export interface taskType {
+  id: number;
   taskToDo: string;
+  date: string;
   isDone: boolean;
-  daysInRow: number;
+  taskListId: number;
+}
+
+export interface taskListType {
+  id: number;
+  name: string;
+  task: taskType;
 }
 
 export interface IHeaders {
