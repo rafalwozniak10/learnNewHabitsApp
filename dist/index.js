@@ -10,23 +10,14 @@ const server = (0, fastify_1.default)();
 const prisma = new client_1.PrismaClient();
 server.register(cors_1.default, {
     origin: ["*"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
 });
-console.log("wefwef");
-console.log("wefwef");
-console.log("wefwef");
-console.log("wefwef");
-server.get("/tasklist", async (request, reply) => {
+server.get("/tasklist", async (_, reply) => {
     const taskLists = await prisma.taskList.findMany({
         include: {
             task: true,
         },
     });
     reply.send(taskLists);
-    reply.header("Access-Control-Allow-Origin", true);
-    reply.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    reply.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 });
 server.get("/getweek/:startDate", async (request, reply) => {
     const { startDate } = request.params;
@@ -46,28 +37,32 @@ server.get("/getweek/:startDate", async (request, reply) => {
     });
     reply.send(taskLists);
 });
-server.post("/task", async (request, reply) => {
-    const { id, taskToDo, isDone, taskListId, date } = request.body;
-    const task = await prisma.task.create({
-        data: {
-            isDone: isDone,
-            taskListId: taskListId,
-            date,
-        },
-    });
-    reply.send(task);
-});
-server.put("/task/:id", async (request, reply) => {
-    const { isDone } = request.body;
-    const { id } = request.params;
-    const taskDone = await prisma.task.update({
-        where: { id: Number(id) },
-        data: {
-            isDone,
-        },
-    });
-    reply.send(taskDone);
-});
+console.log("as");
+// server.post<{ Body: taskType }>("/task", async (request, reply) => {
+//   const { id, taskToDo, isDone, taskListId, date } = request.body;
+//   const task = await prisma.task.create({
+//     data: {
+//       isDone: isDone,
+//       taskListId: taskListId,
+//       date,
+//     },
+//   });
+//   reply.send(task);
+// });
+// server.put<{ Body: taskType; Params: taskType }>(
+//   "/task/:id",
+//   async (request, reply) => {
+//     const { isDone } = request.body;
+//     const { id } = request.params;
+//     const taskDone = await prisma.task.update({
+//       where: { id: Number(id) },
+//       data: {
+//         isDone,
+//       },
+//     });
+//     reply.send(taskDone);
+//   }
+// );
 server.post("/tasklist", async (request, reply) => {
     const { name } = request.body;
     const tasklist = await prisma.taskList.create({
@@ -77,21 +72,24 @@ server.post("/tasklist", async (request, reply) => {
     });
     reply.send(tasklist);
 });
-server.put("/task-update/:id", async (request, reply) => {
-    const { id } = request.params;
-    const { name } = request.body;
-    const taskUpdate = await prisma.taskList.update({
-        where: { id: Number(id) },
-        data: {
-            name,
-        },
-    });
-    reply.send(taskUpdate);
-});
-server.delete("/tasklist/:id", async (request, reply) => {
-    const { id } = request.params;
+// server.put<{ Params: taskListType; Body: { name: string } }>(
+//   "/task-update/:id",
+//   async (request, reply) => {
+//     const { id } = request.params;
+//     const { name } = request.body;
+//     const taskUpdate = await prisma.taskList.update({
+//       where: { id: Number(id) },
+//       data: {
+//         name,
+//       },
+//     });
+//     reply.send(taskUpdate);
+//   }
+// );
+server.delete("/tasklist/:nameParam", async (request, reply) => {
+    const { nameParam } = request.params;
     await prisma.taskList.delete({
-        where: { id: Number(id) },
+        where: { name: nameParam },
     });
     reply.send("Task removed");
 });

@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json -w",
-    "start": "start tsc&& nodemon dist/index.js"
+    "start": "tsc && nodemon dist/index.js"
   },
   "keywords": [],
   "author": "",
